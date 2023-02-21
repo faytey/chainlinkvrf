@@ -2,21 +2,24 @@ import { ethers } from "hardhat";
 
 async function main() {
 const [owner] = await ethers.getSigners();
-const RFContract = await ethers.getContractFactory("RFSubManager");
-const rfcontract = await RFContract.deploy("0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D");
+const RFContract = await ethers.getContractFactory("RFConsumer");
+const rfcontract = await RFContract.deploy("0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D","0x326C977E6efc84E512bB9C30f76E30c160eD06FB");
 await rfcontract.deployed();
 
 console.log(`Contract deployed at ${rfcontract.address}`);
 
-// const LINK = await ethers.getContractAt("LinkTokenInterface","0x326C977E6efc84E512bB9C30f76E30c160eD06FB");
+const LINK = await ethers.getContractAt("LinkTokenInterface", "0x326C977E6efc84E512bB9C30f76E30c160eD06FB");
+const COORDINATOR ="0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D";
 
-// const COORDINATOR = await ethers.getContractAt("VRFCoordinatorV2Interface","0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D");
+console.log(`Link address is ${LINK.address}`);
 
-// const createSubscription = await rfcontract.createNewSubscription();
+await LINK.approve(rfcontract.address, 2);
 
-// await rfcontract.addLinkToken(2);
+console.log(`balance of contract is ${LINK.balanceOf(owner.address)}`);
 
-// await rfcontract.requestRandomWords();
+console.log(`allowance of contract is ${LINK.allowance(owner.address, rfcontract.address)}`);
+
+const randomNumber = await rfcontract.getRandomNumber();
 
 }
 
