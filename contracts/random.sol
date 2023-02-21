@@ -30,7 +30,7 @@ contract RFConsumer is VRFConsumerBase {
         return requestRandomness(keyHash, fee);
     }
 
-    // Callback function used by VRF Coordinator
+    // Callback function used by the VRF Coordinator
     function fulfillRandomness(
         bytes32, /*requestId*/
         uint256 randomness
