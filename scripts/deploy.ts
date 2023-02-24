@@ -3,23 +3,25 @@ import { ethers } from "hardhat";
 async function main() {
 const [owner] = await ethers.getSigners();
 const RFContract = await ethers.getContractFactory("RFConsumer");
-const rfcontract = await RFContract.deploy("0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D","0x326C977E6efc84E512bB9C30f76E30c160eD06FB");
+const rfcontract = await RFContract.deploy(10104);
 await rfcontract.deployed();
 
 console.log(`Contract deployed at ${rfcontract.address}`);
 
-const LINK = await ethers.getContractAt("LinkTokenInterface", "0x326C977E6efc84E512bB9C30f76E30c160eD06FB");
-const COORDINATOR ="0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D";
+// const LINK = await ethers.getContractAt("LinkTokenInterface", "0x514910771AF9Ca656af840dff83E8264EcF986CA");
+// const COORDINATOR ="0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D";
 
-console.log(`Link address is ${LINK.address}`);
+// console.log(`Link address is ${LINK.address}`);
 
-await LINK.approve(rfcontract.address, 2);
+// await LINK.approve(rfcontract.address, 2);
+const random = await ethers.getContractAt("IrandomNumber", "0xb36d8D7293FC6677c6e2bd0B1be3aD8B32C48CF9");
+console.log(await (await (await random.requestRandomWords()).value));
 
-console.log(`balance of contract is ${LINK.balanceOf(owner.address)}`);
+// console.log(`balance of contract is ${LINK.balanceOf(rfcontract.address)}`);
 
-console.log(`allowance of contract is ${LINK.allowance(owner.address, rfcontract.address)}`);
+// console.log(`allowance of contract is ${await LINK.allowance(owner.address, rfcontract.address)}`);
 
-const randomNumber = await rfcontract.getRandomNumber();
+// const randomNumber = await rfcontract.getRandomNumber();
 
 }
 
